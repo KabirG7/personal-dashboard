@@ -33,14 +33,14 @@ body {
 /* --- Dashboard Container --- */
 .dashboard-container {
   width: 100%;
-  max-width: 1400px; /* Increased from 1200px to make the dashboard wider */
-  height: 80vh;
+  max-width: 1600px; /* Increased from 1200px to make the dashboard wider */
+  height: 75vh;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  padding: 3rem;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -326,4 +326,65 @@ body {
 
 .dashboard-container {
   animation: fadeIn 0.5s ease forwards;
+}
+
+/* Carousel Container (replaces the inspiration-image) */
+.carousel-container {
+  flex: 3;
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Carousel Slides */
+.carousel-slides {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  min-height: 200px;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Carousel Indicators */
+.carousel-indicators {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+  background-color: white;
 }

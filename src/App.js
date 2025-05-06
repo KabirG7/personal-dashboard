@@ -12,6 +12,7 @@ function App() {
   });
   const [news, setNews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Sample quotes for morning inspiration
   const morningQuotes = [
@@ -37,42 +38,26 @@ function App() {
     }
   ];
 
-  // Fetch news data
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        // Using News API - you'll need to replace YOUR_API_KEY with an actual API key
-        const response = await fetch('https://newsapi.org/v2/top-headlines?country=us&pageSize=5&apiKey=03b3ccba6b0142a09d922450b32ded27');
-        const data = await response.json();
-        
-        if (data.articles && data.articles.length > 0) {
-          setNews(data.articles.map(article => article.title));
-        } else {
-          // Fallback news if API fails or returns empty
-          setNews([
-            "Global markets show signs of recovery as inflation rates stabilize",
-            "Scientists discover breakthrough in renewable energy storage technology",
-            "New health study links morning routines to improved mental wellbeing",
-            "Tech companies announce collaboration on AI ethics standards",
-            "Environmental report highlights progress in conservation efforts"
-          ]);
-        }
-      } catch (error) {
-        console.error('Error fetching news:', error);
-        // Fallback news if API fails
-        setNews([
-          "Global markets show signs of recovery as inflation rates stabilize",
-          "Scientists discover breakthrough in renewable energy storage technology",
-          "New health study links morning routines to improved mental wellbeing",
-          "Tech companies announce collaboration on AI ethics standards",
-          "Environmental report highlights progress in conservation efforts"
-        ]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // Carousel images
+  const carouselImages = [
+    'https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?q=80&w=1974&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=2070&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2232&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=2232&auto=format&fit=crop'
+  ];
 
-    fetchNews();
+  // Fetch news data or use fallback
+  useEffect(() => {
+    // Use fallback news since we're focusing on fixing the image
+    setNews([
+      "Global markets show signs of recovery as inflation rates stabilize",
+      "Scientists discover breakthrough in renewable energy storage technology",
+      "New health study links morning routines to improved mental wellbeing",
+      "Tech companies announce collaboration on AI ethics standards",
+      "Environmental report highlights progress in conservation efforts"
+    ]);
+    setIsLoading(false);
   }, []);
 
   // Update time every second
@@ -104,6 +89,17 @@ function App() {
     // Clean up timer
     return () => clearInterval(timer);
   }, []);
+
+  // Image carousel auto-scroll
+  useEffect(() => {
+    const carouselInterval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        prevIndex === carouselImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change image every 5 seconds
+    
+    return () => clearInterval(carouselInterval);
+  }, [carouselImages.length]);
 
   // Handle goal input
   const handleGoalChange = (e) => {
@@ -169,8 +165,27 @@ function App() {
           </div>
           
           <div className="dashboard-right">
-            <div className="inspiration-image">
-              <div className="image-overlay">
+            {/* Image carousel */}
+            <div className="carousel-container">
+              <div className="carousel-slides">
+                {carouselImages.map((image, index) => (
+                  <div 
+                    key={index} 
+                    className={`carousel-slide ${index === currentImageIndex ? 'active' : ''}`}
+                    style={{ backgroundImage: `url(${image})` }}
+                  >
+                    <div className="image-overlay"></div>
+                  </div>
+                ))}
+              </div>
+              <div className="carousel-indicators">
+                {carouselImages.map((_, index) => (
+                  <span 
+                    key={index} 
+                    className={`indicator ${index === currentImageIndex ? 'active' : ''}`}
+                    onClick={() => setCurrentImageIndex(index)}
+                  ></span>
+                ))}
               </div>
             </div>
             
@@ -196,8 +211,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-//03b3ccba6b0142a09d922450b32ded27

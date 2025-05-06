@@ -205,12 +205,14 @@ body {
 
 .inspiration-image {
   flex: 3;
-  background-image: url('qoute.jpg');
+  background-image: url('qoute.jpg'); /* Make sure this path is correct */
   background-size: cover;
   background-position: center;
   border-radius: 15px;
   position: relative;
   overflow: hidden;
+  min-height: 200px; /* Add minimum height */
+  width: 100%; /* Ensure full width */
 }
 
 .image-overlay {
